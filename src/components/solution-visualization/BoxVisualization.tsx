@@ -11,7 +11,7 @@ export function BoxVisualization({ box, scale = 1 }: BoxVisualizationProps) {
     const boxSize = box.boxL * scale;
 
     return (
-        <div className="bg-white rounded-lg shadow-md p-5 m-2 border border-stone-700">
+        <div className="bg-white rounded-lg shadow-md p-5 border border-stone-700">
             <h3 className="text-sm font-semibold mb-3">
                 Box {box.id} ({rectangles.length} items)
             </h3>

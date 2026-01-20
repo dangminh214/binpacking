@@ -7,8 +7,8 @@ interface Props {
 
 export const SolutionVisualization: React.FC<Props> = ({ boxes: boxes }) => {
     return (
-        <div className="">
-            <div className="grid">
+        <div className="flex-1 overflow-y-auto p-4">
+            <div className="flex flex-wrap gap-4">
                 {boxes.map((box: Box) => (
                     <BoxVisualization key={box.id} box={box} scale={5} />
                 ))}
