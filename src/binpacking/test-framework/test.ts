@@ -1,6 +1,6 @@
 import { TestFramework } from ".";
 
-const instanceNumber = 10;
+const instanceNumber = 10000;
 const minW = 1;
 const maxW = 20;
 const minH = 1;

@@ -40,7 +40,7 @@ export class BottomLeftPlacer extends GreedyPlacement<
         const newBoxId = boxes.length;
         const newBox = new Box(newBoxId, this.boxL);
         solution.items.push(newBox);
-        
+
         // Try to place in the new box
         return this.canPlaceInABox(item, newBox);
     }

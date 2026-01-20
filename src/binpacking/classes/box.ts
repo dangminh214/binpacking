@@ -1,5 +1,4 @@
-import type { Position } from "../types/position";
-import type { Rectangle } from "./rectangle";
+import type { Rectangle, Position } from "./rectangle";
 
 export class Box {
     readonly id;
