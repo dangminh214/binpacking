@@ -13,14 +13,13 @@ export const RectangleVisualization: React.FC<RectangleProps> = ({
     const y = rect.position.y! * scale;
     const width = rect.getWidth() * scale;
     const height = rect.getHeight() * scale;
-    // Use blue for normal rectangles, orange for rotated ones
-    // css color, not tailwind
-    const color = rect.getIsRotated() ? "#f97316" : "#3b82f6";
+    // Use blue for normal rectangles, light red for rotated ones
+    const color = rect.getIsRotated() ? "#fca5a5" : "#3b82f6";
 
     return (
         <div
             key={rect.id}
-            className="absolute border border-gray-700 flex items-center justify-center text-black text-xs font-bold transition-all hover:opacity-80 cursor-pointer"
+            className="absolute border border-gray-700 flex items-center justify-center text-black text-xs font-bold transition-all hover:opacity-80 cursor-pointer box-border"
             style={{
                 left: x,
                 top: y,

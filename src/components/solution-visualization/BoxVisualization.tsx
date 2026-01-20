@@ -16,7 +16,7 @@ export function BoxVisualization({ box, scale = 1 }: BoxVisualizationProps) {
                 Box {box.id} ({rectangles.length} items)
             </h3>
             <div
-                className="relative border-2 border-gray-800 border-dashed"
+                className="relative border-2 border-gray-800 border-dashed box-content"
                 style={{ width: boxSize, height: boxSize }}
             >
                 {rectangles.map((rect) => (
