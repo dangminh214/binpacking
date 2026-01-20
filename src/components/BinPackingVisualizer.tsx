@@ -62,9 +62,9 @@ export function BinPackingVisualizer() {
     const hiddenBoxes = totalBoxes > 10 ? totalBoxes - 10 : 0;
 
     return (
-        <div className="h-screen flex flex-col bg-gray-50">
-            <div className="shrink-0 p-8 pb-4">
-                <h1 className="text-3xl font-bold text-gray-900 mb-6">
+        <div className="flex bg-gray-50">
+            <div>
+                <h1 className="text-3xl font-bold text-gray-900 mx-5">
                     Bin Packing Visualizer
                 </h1>
 
@@ -82,9 +82,11 @@ export function BinPackingVisualizer() {
                 )}
             </div>
 
-            {solution && displayBoxes.length > 0 && (
-                <SolutionVisualization displayBoxes={displayBoxes} />
-            )}
+            <div>
+                {solution && displayBoxes.length > 0 && (
+                    <SolutionVisualization boxes={displayBoxes} />
+                )}
+            </div>
         </div>
     );
 }

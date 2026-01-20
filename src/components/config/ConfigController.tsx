@@ -1,7 +1,7 @@
 import type React from "react";
 import { Button } from "../ui/button";
 import { ConfigInput } from "./ConfigInput";
-
+import { PANELCLASS, HEADERCLASS } from "../tw-classes";
 export interface UserConfig {
     instanceNumber: number;
     minW: number;
@@ -23,8 +23,8 @@ export const ConfigController: React.FC<ControllerProps> = ({
     generateAndSolve,
 }) => {
     return (
-        <div className="bg-white rounded-lg shadow-md p-6 mb-4">
-            <h2 className="text-xl font-semibold mb-4">Configuration</h2>
+        <div className={`${PANELCLASS} w-100`}>
+            <h2 className={HEADERCLASS}>Configuration</h2>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-4">
                 <ConfigInput
                     id="instanceNumber"

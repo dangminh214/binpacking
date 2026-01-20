@@ -1,4 +1,5 @@
 import type { AlgSolution } from "@/binpacking/algorithm-solution";
+import { PANELCLASS } from "../tw-classes";
 
 interface SolutionProps {
     solution: AlgSolution | null;
@@ -10,7 +11,7 @@ export const SolutionStats: React.FC<SolutionProps> = ({
     hiddenBoxes,
 }) => {
     return (
-        <div className="bg-white rounded-lg shadow-md p-6">
+        <div className={`${PANELCLASS} w-100`}>
             <h2 className="text-xl font-semibold mb-2">Solution</h2>
             <p className="text-gray-700">
                 <span className="font-medium">Boxes used:</span>{" "}
