@@ -4,9 +4,9 @@ import { Rectangle } from "@/binpacking/classes/rectangle";
 import { AreaGreedyStrategy } from "@/binpacking/strategy/greedy/selection";
 import { BottomLeftPlacer } from "@/binpacking/strategy/greedy/placer";
 import { AlgSolution } from "@/binpacking/algorithm-solution";
-import { BoxVisualization } from "./BoxVisualization";
-import { Button } from "./ui/button";
-import { ConfigInput } from "./ConfigInput";
+import { ConfigController } from "./config/ConfigController";
+import { SolutionStats } from "./solution-visualization/SolutionStats";
+import { SolutionVisualization } from "./solution-visualization/SolutionVisualization";
 
 export function BinPackingVisualizer() {
     const [solution, setSolution] = useState<AlgSolution | null>(null);
@@ -68,102 +68,22 @@ export function BinPackingVisualizer() {
                     Bin Packing Visualizer
                 </h1>
 
-                <div className="bg-white rounded-lg shadow-md p-6 mb-4">
-                    <h2 className="text-xl font-semibold mb-4">
-                        Configuration
-                    </h2>
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-4">
-                        <ConfigInput
-                            id="instanceNumber"
-                            label="Number of Items"
-                            value={config.instanceNumber}
-                            onChange={(value) =>
-                                setConfig({ ...config, instanceNumber: value })
-                            }
-                            min={1}
-                        />
-                        <ConfigInput
-                            id="minW"
-                            label="Min Width"
-                            value={config.minW}
-                            onChange={(value) =>
-                                setConfig({ ...config, minW: value })
-                            }
-                            min={1}
-                        />
-                        <ConfigInput
-                            id="maxW"
-                            label="Max Width"
-                            value={config.maxW}
-                            onChange={(value) =>
-                                setConfig({ ...config, maxW: value })
-                            }
-                            min={1}
-                        />
-                        <ConfigInput
-                            id="minH"
-                            label="Min Height"
-                            value={config.minH}
-                            onChange={(value) =>
-                                setConfig({ ...config, minH: value })
-                            }
-                            min={1}
-                        />
-                        <ConfigInput
-                            id="maxH"
-                            label="Max Height"
-                            value={config.maxH}
-                            onChange={(value) =>
-                                setConfig({ ...config, maxH: value })
-                            }
-                            min={1}
-                        />
-                        <ConfigInput
-                            id="boxL"
-                            label="Box Size"
-                            value={config.boxL}
-                            onChange={(value) =>
-                                setConfig({ ...config, boxL: value })
-                            }
-                            min={1}
-                        />
-                    </div>
-                    <Button onClick={generateAndSolve}>Generate & Solve</Button>
-                </div>
+                <ConfigController
+                    config={config}
+                    setConfig={setConfig}
+                    generateAndSolve={generateAndSolve}
+                />
 
                 {solution && (
-                    <div className="bg-white rounded-lg shadow-md p-6">
-                        <h2 className="text-xl font-semibold mb-2">Solution</h2>
-                        <p className="text-gray-700">
-                            <span className="font-medium">Boxes used:</span>{" "}
-                            {solution.items.length}
-                        </p>
-                        <p className="text-gray-700">
-                            <span className="font-medium">Runtime:</span>{" "}
-                            {solution.getFormattedRunTime()}
-                        </p>
-                        {hiddenBoxes > 0 && (
-                            <p className="text-gray-600 text-sm mt-2">
-                                Showing first 5 and last 5 boxes ({hiddenBoxes}{" "}
-                                boxes hidden)
-                            </p>
-                        )}
-                    </div>
+                    <SolutionStats
+                        solution={solution}
+                        hiddenBoxes={hiddenBoxes}
+                    />
                 )}
             </div>
 
             {solution && displayBoxes.length > 0 && (
-                <div className="flex-1 overflow-y-auto px-8 pb-8">
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
-                        {displayBoxes.map((box) => (
-                            <BoxVisualization
-                                key={box.id}
-                                box={box}
-                                scale={10}
-                            />
-                        ))}
-                    </div>
-                </div>
+                <SolutionVisualization displayBoxes={displayBoxes} />
             )}
         </div>
     );
