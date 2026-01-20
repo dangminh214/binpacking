@@ -1,7 +1,7 @@
 // abstract definition of the optimization problem
 
 import type { IItem } from "./i-item";
-import { Solution } from "./solution";
+import { Solution } from "../algorithm/solution";
 
 /**
  * Generic interface for an Optimization Problem.

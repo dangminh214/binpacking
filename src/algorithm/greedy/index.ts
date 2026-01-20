@@ -1,6 +1,6 @@
 // Generic Logic (No React, No CSS)
 // Pure TS: implements the Greedy logic
-import { Solution } from "@/core/solution";
+import { Solution } from "@/algorithm/solution";
 import type { IItem } from "@/core/i-item";
 import type { GreedyPlacement } from "./placement-strategy";
 import type { GreedySelection } from "./selection-strategy";
