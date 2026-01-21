@@ -2,6 +2,11 @@ import type React from "react";
 import { Button } from "../ui/button";
 import { ConfigInput } from "./ConfigInput";
 import { PANELCLASS, HEADERTEXT } from "../tw-classes";
+import type { AlgorithmType, SelectionStrategy } from "./config-types";
+import type { AlgSolution } from "@/binpacking/algorithm-solution";
+import type { Solution } from "@/algorithm/abstract-solution";
+import type { Box } from "@/binpacking/classes/box";
+import type { Dispatch, SetStateAction } from "react";
 export interface UserConfig {
     instanceNumber: number;
     minW: number;
@@ -14,13 +19,29 @@ export interface UserConfig {
 interface ControllerProps {
     config: UserConfig;
     setConfig: React.Dispatch<React.SetStateAction<UserConfig>>;
-    generateAndSolve: () => void;
+    generateAndSolve: (
+        config: UserConfig,
+        selectionStrategy: string,
+        algorithm: string,
+        setSolution: (sol: Solution<Box>) => void,
+        setIsSolving: React.Dispatch<React.SetStateAction<boolean>>,
+    ) => void;
+    isSolving: boolean;
+    selectionStrategy: SelectionStrategy;
+    algorithm: AlgorithmType;
+    setSolution: Dispatch<React.SetStateAction<AlgSolution | null>>;
+    setIsSolving: Dispatch<SetStateAction<boolean>>;
 }
 
 export const ConfigController: React.FC<ControllerProps> = ({
     config,
     setConfig,
     generateAndSolve,
+    isSolving,
+    selectionStrategy,
+    algorithm,
+    setSolution,
+    setIsSolving,
 }) => {
     return (
         <div className={`${PANELCLASS} w-100`}>
@@ -71,7 +92,20 @@ export const ConfigController: React.FC<ControllerProps> = ({
                     min={1}
                 />
             </div>
-            <Button onClick={generateAndSolve}>Generate & Solve</Button>
+            <Button
+                onClick={() =>
+                    generateAndSolve(
+                        config,
+                        selectionStrategy,
+                        algorithm,
+                        setSolution,
+                        setIsSolving,
+                    )
+                }
+                disabled={isSolving}
+            >
+                {isSolving ? "Solving ..." : "Generate & Solve"}
+            </Button>
         </div>
     );
 };

@@ -11,12 +11,14 @@ import type { Solution } from "@/algorithm/abstract-solution";
 import type { Box } from "@/binpacking/classes/box";
 import { ALGORITHMS, STRATEGY } from "./config/config-options";
 
-export const generateAndSolve = (
+export const generateAndSolve = async (
     config: UserConfig,
     selectionStrategy: string,
     algorithm: string,
     setSolution: (sol: Solution<Box>) => void,
+    setIsSolving: React.Dispatch<React.SetStateAction<boolean>>,
 ) => {
+    setIsSolving(true);
     const rectangles: Rectangle[] = [];
     for (let i = 0; i < config.instanceNumber; i++) {
         const w =
@@ -40,10 +42,16 @@ export const generateAndSolve = (
     const algSol = new AlgSolution();
 
     // Run the selected algorithm
+    await new Promise((resolve) => setTimeout(resolve, 0)); // Let React render
     if (algorithm === ALGORITHMS.GREEDY) {
         const alg = new Greedy(algSol, selection, placer);
-        const sol = alg.solve();
-        setSolution(sol);
+        let sol;
+        try {
+            sol = alg.solve();
+        } finally {
+            setSolution(sol!);
+            setIsSolving(false);
+        }
     } else {
         // Local search not implemented yet
         console.log("Local search not implemented yet");

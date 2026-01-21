@@ -1,5 +1,6 @@
 import { useState } from "react";
 import {
+    ALGORITHMS,
     DEFAULT_CONFIG,
     PLACEMENT,
     STRATEGY,
@@ -19,10 +20,13 @@ import { PANELCLASS } from "./tw-classes";
 
 export function BinPackingVisualizer() {
     const [solution, setSolution] = useState<AlgSolution | null>(null);
-
+    const [isSolving, setIsSolving] = useState<boolean>(false);
     const [config, setConfig] = useState(DEFAULT_CONFIG);
 
-    const [algorithm, setAlgorithm] = useState<AlgorithmType>("greedy");
+    const [algorithm, setAlgorithm] = useState<AlgorithmType>(
+        ALGORITHMS.GREEDY,
+    );
+
     const [selectionStrategy, setSelectionStrategy] =
         useState<SelectionStrategy>(STRATEGY.AREA);
 
@@ -56,14 +60,12 @@ export function BinPackingVisualizer() {
                 <ConfigController
                     config={config}
                     setConfig={setConfig}
-                    generateAndSolve={() =>
-                        generateAndSolve(
-                            config,
-                            selectionStrategy,
-                            algorithm,
-                            setSolution,
-                        )
-                    }
+                    generateAndSolve={generateAndSolve}
+                    isSolving={isSolving}
+                    selectionStrategy={selectionStrategy}
+                    algorithm={algorithm}
+                    setSolution={setSolution}
+                    setIsSolving={setIsSolving}
                 />
 
                 {solution && (
