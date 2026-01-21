@@ -105,6 +105,4 @@ export class BottomLeftPlacer extends GreedyPlacement<
         rect.setPosition(toPlacePos.x, toPlacePos.y);
         toPlaceBox.addRectangle(rect);
     }
-
-    // private placeInBox(rect: Rectangle, box: Box);
 }

@@ -1,8 +1,3 @@
-export const algorithmOptions = [
-    { value: "greedy", label: "Greedy Algorithm" },
-    { value: "localSearch", label: "Local Search" },
-];
-
 export const STRATEGY = {
     AREA: "area",
     HEIGHT: "height",
@@ -18,10 +13,15 @@ export const PLACEMENT = {
     BOTTOMLEFT: "bottomLeft",
 } as const;
 
-export const Algorithms = {
+export const ALGORITHMS = {
     GREEDY: "greedy",
     LOCALSEARCH: "localSearch",
 } as const;
+
+export const algorithmOptions = [
+    { value: ALGORITHMS.GREEDY, label: "Greedy Algorithm" },
+    { value: ALGORITHMS.LOCALSEARCH, label: "Local Search" },
+];
 
 export const selectionStrategyOptions = {
     greedy: [

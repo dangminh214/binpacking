@@ -9,6 +9,7 @@ import { AlgSolution } from "@/binpacking/algorithm-solution";
 import { Greedy } from "@/algorithm/greedy";
 import type { Solution } from "@/algorithm/abstract-solution";
 import type { Box } from "@/binpacking/classes/box";
+import { ALGORITHMS, STRATEGY } from "./config/config-options";
 
 export const generateAndSolve = (
     config: UserConfig,
@@ -29,7 +30,7 @@ export const generateAndSolve = (
 
     // Select the appropriate selection strategy
     const selection =
-        selectionStrategy === "area"
+        selectionStrategy === STRATEGY.AREA
             ? new AreaGreedyStrategy(rectangles)
             : new HeightGreedyStrategy(rectangles);
 
@@ -39,7 +40,7 @@ export const generateAndSolve = (
     const algSol = new AlgSolution();
 
     // Run the selected algorithm
-    if (algorithm === "greedy") {
+    if (algorithm === ALGORITHMS.GREEDY) {
         const alg = new Greedy(algSol, selection, placer);
         const sol = alg.solve();
         setSolution(sol);
@@ -49,7 +50,10 @@ export const generateAndSolve = (
     }
 };
 
-export const getDisplayBoxes = (solution: AlgSolution) => {
+export const getDisplayBoxes = (
+    solution: AlgSolution,
+    numbBoxDisplay: number,
+) => {
     if (!solution || solution.items.length === 0) return [];
 
     const boxes = solution.items;
@@ -59,8 +63,8 @@ export const getDisplayBoxes = (solution: AlgSolution) => {
         return boxes;
     }
 
-    const firstFive = boxes.slice(0, 5);
-    const lastFive = boxes.slice(-5);
+    const firstDisplayBox = boxes.slice(0, numbBoxDisplay / 2);
+    const lastDisplayBox = boxes.slice(-(numbBoxDisplay / 2));
 
-    return [...firstFive, ...lastFive];
+    return [...firstDisplayBox, ...lastDisplayBox];
 };

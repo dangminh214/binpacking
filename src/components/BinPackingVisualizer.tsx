@@ -29,7 +29,9 @@ export function BinPackingVisualizer() {
     const [placementStrategy, setPlacementStrategy] =
         useState<PlacementStrategy>(PLACEMENT.BOTTOMLEFT);
 
-    const displayBoxes = getDisplayBoxes(solution!);
+    const numberOfDisplayBoxs = 4;
+
+    const displayBoxes = getDisplayBoxes(solution!, numberOfDisplayBoxs);
     const totalBoxes = solution?.items.length || 0;
     const hiddenBoxes = totalBoxes > 10 ? totalBoxes - 10 : 0;
 

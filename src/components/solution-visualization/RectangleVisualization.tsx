@@ -13,6 +13,7 @@ export const RectangleVisualization: React.FC<RectangleProps> = ({
     const y = rect.position.y! * scale;
     const width = rect.getWidth() * scale;
     const height = rect.getHeight() * scale;
+
     // Use blue for normal rectangles, light red for rotated ones
     const color = rect.getIsRotated() ? "#fca5a5" : "#3b82f6";
 
