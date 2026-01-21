@@ -8,6 +8,7 @@ export type ToPlacePosition = {
     id: number;
     x: number;
     y: number;
+    shouldRotate?: boolean;
 };
 
 export class BottomLeftPlacer extends GreedyPlacement<
@@ -46,47 +47,89 @@ export class BottomLeftPlacer extends GreedyPlacement<
     }
 
     private canPlaceInABox(item: Rectangle, box: Box): ToPlacePosition | false {
-        // 1. bottom-left corner
-        if (box.checkPossible(item, { x: 0, y: 0 })) {
-            return {
-                id: box.id,
-                x: 0,
-                y: 0,
-            };
+        // Try both orientations: normal first, then rotated
+        // 1. Try normal orientation
+        const normalResult = this.tryPlaceInBox(item, box, false);
+        if (normalResult) {
+            return normalResult;
         }
 
-        // 2. bottom-left positions induced by placed rectangles
-        for (const placed of box.getRectangles()) {
-            // to the right
-            if (
-                box.checkPossible(item, {
-                    x: placed.position.x! + placed.getWidth(),
-                    y: placed.position.y!,
-                })
-            ) {
-                return {
-                    id: box.id,
-                    x: placed.position.x! + placed.getWidth(),
-                    y: placed.position.y!,
-                };
-            }
-
-            // above
-            if (
-                box.checkPossible(item, {
-                    x: placed.position.x!,
-                    y: placed.position.y! + placed.getHeight(),
-                })
-            ) {
-                return {
-                    id: box.id,
-                    x: placed.position.x!,
-                    y: placed.position.y! + placed.getHeight(),
-                };
+        // 2. Try rotated orientation (only if rectangle is not square)
+        if (item.getWidth() !== item.getHeight()) {
+            const rotatedResult = this.tryPlaceInBox(item, box, true);
+            if (rotatedResult) {
+                return rotatedResult;
             }
         }
 
         return false;
+    }
+
+    private tryPlaceInBox(
+        item: Rectangle,
+        box: Box,
+        shouldRotate: boolean,
+    ): ToPlacePosition | false {
+        // Temporarily rotate if needed for testing
+        if (shouldRotate) {
+            item.rotate();
+        }
+
+        let result: ToPlacePosition | false = false;
+
+        // 1. bottom-left corner
+        if (box.checkPossible(item, { x: 0, y: 0 })) {
+            result = {
+                id: box.id,
+                x: 0,
+                y: 0,
+                shouldRotate,
+            };
+        }
+
+        // 2. bottom-left positions induced by placed rectangles
+        if (!result) {
+            for (const placed of box.getRectangles()) {
+                // to the right
+                if (
+                    box.checkPossible(item, {
+                        x: placed.position.x! + placed.getWidth(),
+                        y: placed.position.y!,
+                    })
+                ) {
+                    result = {
+                        id: box.id,
+                        x: placed.position.x! + placed.getWidth(),
+                        y: placed.position.y!,
+                        shouldRotate,
+                    };
+                    break;
+                }
+
+                // above
+                if (
+                    box.checkPossible(item, {
+                        x: placed.position.x!,
+                        y: placed.position.y! + placed.getHeight(),
+                    })
+                ) {
+                    result = {
+                        id: box.id,
+                        x: placed.position.x!,
+                        y: placed.position.y! + placed.getHeight(),
+                        shouldRotate,
+                    };
+                    break;
+                }
+            }
+        }
+
+        // Always rotate back to original state after testing
+        if (shouldRotate) {
+            item.rotate();
+        }
+
+        return result;
     }
 
     /**
@@ -101,6 +144,12 @@ export class BottomLeftPlacer extends GreedyPlacement<
         toPlacePos: ToPlacePosition,
     ) {
         const toPlaceBox = algSol.items[toPlacePos.id];
+
+        // Rotate the rectangle if needed
+        if (toPlacePos.shouldRotate) {
+            rect.rotate();
+        }
+
         // Set the rectangle's position
         rect.setPosition(toPlacePos.x, toPlacePos.y);
         toPlaceBox.addRectangle(rect);
