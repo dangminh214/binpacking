@@ -1,9 +1,16 @@
 import { CONFIGINPUT, DEFAULTTEXT } from "../tw-classes";
 import { Label } from "../ui/label";
+import type {
+    AlgorithmType,
+    SelectionStrategy,
+    PlacementStrategy,
+} from "./config-types";
 
-export type AlgorithmType = "greedy" | "localSearch";
-export type SelectionStrategy = "area" | "height";
-export type PlacementStrategy = "bottomLeft";
+import {
+    selectionStrategyOptions,
+    placementStrategyOptions,
+    algorithmOptions,
+} from "./config-options";
 
 interface AlgorithmSelectorProps {
     algorithm: AlgorithmType;
@@ -13,24 +20,6 @@ interface AlgorithmSelectorProps {
     onSelectionStrategyChange: (strategy: SelectionStrategy) => void;
     onPlacementStrategyChange: (strategy: PlacementStrategy) => void;
 }
-
-const algorithmOptions = [
-    { value: "greedy", label: "Greedy Algorithm" },
-    { value: "localSearch", label: "Local Search" },
-];
-
-const selectionStrategyOptions = {
-    greedy: [
-        { value: "area", label: "Area Descending" },
-        { value: "height", label: "Height Descending" },
-    ],
-    localSearch: [{ value: "area", label: "Area Based" }],
-};
-
-const placementStrategyOptions = {
-    greedy: [{ value: "bottomLeft", label: "Bottom-Left Placement" }],
-    localSearch: [{ value: "bottomLeft", label: "Bottom-Left Placement" }],
-};
 
 export function AlgorithmSelector({
     algorithm,
@@ -47,8 +36,10 @@ export function AlgorithmSelector({
         // Reset strategies to first available option when algorithm changes
         const firstSelection = selectionStrategyOptions[newAlgorithm][0]
             .value as SelectionStrategy;
+
         const firstPlacement = placementStrategyOptions[newAlgorithm][0]
             .value as PlacementStrategy;
+
         onSelectionStrategyChange(firstSelection);
         onPlacementStrategyChange(firstPlacement);
     };

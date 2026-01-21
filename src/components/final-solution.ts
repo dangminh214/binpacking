@@ -64,12 +64,3 @@ export const getDisplayBoxes = (solution: AlgSolution) => {
 
     return [...firstFive, ...lastFive];
 };
-
-export const DEFAULT_CONFIG = {
-    instanceNumber: 1000,
-    minW: 1,
-    maxW: 20,
-    minH: 1,
-    maxH: 20,
-    boxL: 30,
-};

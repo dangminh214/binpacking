@@ -1,30 +1,33 @@
 import { useState } from "react";
 import {
     DEFAULT_CONFIG,
-    generateAndSolve,
-    getDisplayBoxes,
-} from "./final-solution";
+    PLACEMENT,
+    STRATEGY,
+} from "@/components/config/config-options";
+import { generateAndSolve, getDisplayBoxes } from "./final-solution";
 import { AlgSolution } from "@/binpacking/algorithm-solution";
 import { ConfigController } from "./config/ConfigController";
 import { SolutionStats } from "./solution-visualization/SolutionStats";
 import { SolutionVisualization } from "./solution-visualization/SolutionVisualization";
 import {
-    AlgorithmSelector,
     type AlgorithmType,
     type SelectionStrategy,
     type PlacementStrategy,
-} from "./config/AlgorithmSelector";
+} from "./config/config-types";
+import { AlgorithmSelector } from "@/components/config/AlgorithmConfig";
 import { PANELCLASS } from "./tw-classes";
 
 export function BinPackingVisualizer() {
     const [solution, setSolution] = useState<AlgSolution | null>(null);
+
     const [config, setConfig] = useState(DEFAULT_CONFIG);
 
     const [algorithm, setAlgorithm] = useState<AlgorithmType>("greedy");
     const [selectionStrategy, setSelectionStrategy] =
-        useState<SelectionStrategy>("area");
+        useState<SelectionStrategy>(STRATEGY.AREA);
+
     const [placementStrategy, setPlacementStrategy] =
-        useState<PlacementStrategy>("bottomLeft");
+        useState<PlacementStrategy>(PLACEMENT.BOTTOMLEFT);
 
     const displayBoxes = getDisplayBoxes(solution!);
     const totalBoxes = solution?.items.length || 0;
