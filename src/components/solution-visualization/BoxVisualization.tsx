@@ -1,5 +1,6 @@
 import { Box } from "@/binpacking/classes/box";
 import { RectangleVisualization } from "./RectangleVisualization";
+import { DEFAULTTEXT } from "../tw-classes";
 
 interface BoxVisualizationProps {
     box: Box;
@@ -12,7 +13,7 @@ export function BoxVisualization({ box, scale = 1 }: BoxVisualizationProps) {
 
     return (
         <div className="bg-white rounded-lg shadow-md p-5 border border-stone-700">
-            <h3 className="text-sm font-semibold mb-3">
+            <h3 className={DEFAULTTEXT}>
                 Box {box.id} ({rectangles.length} items)
             </h3>
             <div
